@@ -11,6 +11,8 @@ Documento publicado bajo licencia Creative Commons reconocimiento compartir-igua
 ======= ========== ============== ==========================================
 Versión Fecha      Autor(es)      Cambios
 ======= ========== ============== ==========================================
+1.0.1   28/02/2014 Oscar Fonts    Actualizadas versiones PostgreSQL 9.3 y
+                                  PostGIS 2.1
 1.0     27/02/2014 Oscar Fonts    Compilación a partir de documentación de
                                   CTBB, FAO, Roses e i3dat.
                                   Actualizadas versiones: OpenJDK 1.7,
