@@ -159,7 +159,7 @@ PostGIS
 Instalar PostgreSQL (9.1) y PostGIS (2.0)::
 
 	apt-get install postgresql
-	apt-get install postgresql-9.1-postgis-2.0
+	apt-get install postgresql-9.3-postgis-2.1
 
 
 Habilitar acceso local. En /etc/postgresql/9.1/main/pg_hba.conf::
