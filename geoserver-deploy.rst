@@ -156,9 +156,8 @@ Instalar GDAL (1.10)::
 PostGIS
 =======
 
-Instalar PostgreSQL (9.1) y PostGIS (2.0)::
+Instalar PostgreSQL (9.3) y PostGIS (2.1)::
 
-	apt-get install postgresql
 	apt-get install postgresql-9.3-postgis-2.1
 
 
