@@ -156,6 +156,7 @@ PostGIS
 
 Instalar PostgreSQL (9.1) y PostGIS (2.0)::
 
+	apt-get install postgresql
 	apt-get install postgresql-9.1-postgis-2.0
 
 
@@ -559,3 +560,53 @@ Nivel Tamaño del píxel Nombre
 11    0.25             Escala 1:2 500
 12    0.1              Escala 1:1 000
 ===== ================ ======================
+
+
+Migración de los datos
+======================
+
+PostGIS
+-------
+
+Exportar el archivo SQL. La opción --inserts es importante para la exportación. Si no, ejecuta comandos 'copy'::
+
+	/usr/bin/pg_dump --inserts -h localhost -U user_castellbisbal -W gdb_castellbisbal > ctbb.dump
+
+Restaurar el archivo ctbb.dump::
+
+	> sudo -u user_castellbisbal psql
+	\c gdb_castellbisbal
+	\i ctbb.dump
+	
+Geoserver
+---------
+
+1- crear el workspace ctbb_portal
+
+2- con la herramienta ImportData (extensión Importer), publicar las capas en ctbb_portal
+
+3- la importación automática de estilos ha dado errores
+
+	https://jira.codehaus.org/browse/GEOS-6107
+	
+por lo que se ha hecho manualmente copiando SLD
+
+4- copiar directorio /graphics en /styles y cambiar permisos::
+
+	sudo chown -R tomcat7. graphics/
+	
+5- copiar y pegar carpeta /templates y cambiar permisos::
+
+	sudo chown -R tomcat7. templates/
+	
+	
+Geoexplorer
+-----------
+
+1- crear /var/lib/geoexplorer_data
+
+2- en Geoexplorer, cambiar GEOEXPLORER_DATA a /var/lib/geoexplorer_data en web.xml y app.proxy.geoserver=http://geoserver.fonts.cat/web/ en build.properties
+
+3- crear archivo .war y subirlo a /var/lib/tomcat7/webapps::
+
+	ant -Dgeoexplorer.data=profiles/ctbb-portal dist
