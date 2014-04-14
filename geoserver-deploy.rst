@@ -11,6 +11,7 @@ Documento publicado bajo licencia Creative Commons reconocimiento compartir-igua
 ======= ========== ============== ==========================================
 Versión Fecha      Autor(es)      Cambios
 ======= ========== ============== ==========================================
+1.0.1   14/04/2014 Oscar Fonts    Actualizar versión GS 2.5
 1.0     27/02/2014 Oscar Fonts    Compilación a partir de documentación de
                                   CTBB, FAO, Roses e i3dat.
                                   Actualizadas versiones: OpenJDK 1.7,
@@ -290,13 +291,13 @@ GeoServer
 Instalación base
 ----------------
 
-GeoServer (latest, unstable)::
+GeoServer 2.5 (o "latest stable")::
 
 	cd /var/lib/tomcat7/webapps/
-	wget http://sourceforge.net/projects/geoserver/files/GeoServer/2.5-beta/geoserver-2.5-beta-war.zip
+	wget http://sourceforge.net/projects/geoserver/files/GeoServer/2.5/geoserver-2.5-war.zip
 	apt-get install unzip
-	unzip geoserver-2.5-beta-war.zip
-	rm -rf target/ *.txt geoserver-2.5-beta-war.zip
+	unzip geoserver-2.5-war.zip
+	rm -rf target/ *.txt geoserver-2.5-war.zip
 
 
 Entorno JVM
