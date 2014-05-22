@@ -521,8 +521,93 @@ https://dl.dropboxusercontent.com/u/2368219/geoserver/config.yaml
 
 
 
-Esquema de teselado del ICC
-----------------------------
+Esquemas de teselado
+--------------------
+
+Aumentar resolución para EPSG:4326
+...................................
+
+Si se quiere mayor resolución en los KML superoverlays autogenerados por el servicio GWC, hay que sobreescribir la definición del gridset "EPSG:4326" editando directamente el fichero en disco. En este caso, añadiremos los niveles 23, 24 y 25, que aumentan la resolución máxima en un orden de magnitud. Localizar el fichero $GEOWEBCACHE_CACHE_DIR/geowebcache.xml, y añadir el siguiente gridset::
+
+	<gridSet>
+      <name>EPSG:4326</name>
+      <description>A default WGS84 tile matrix set where the first zoom level covers the world with two tiles on the horizonal axis and one tile over the vertical axis and each subsequent zoom level is calculated by half the resolution of its previous one.</description>
+      <srs>
+        <number>4326</number>
+      </srs>
+      <extent>
+        <coords>
+          <double>-180.0</double>
+          <double>-90.0</double>
+          <double>180.0</double>
+          <double>90.0</double>
+        </coords>
+      </extent>
+      <alignTopLeft>false</alignTopLeft>
+      <resolutions>
+        <double>0.703125</double>
+        <double>0.3515625</double>
+        <double>0.17578125</double>
+        <double>0.087890625</double>
+        <double>0.0439453125</double>
+        <double>0.02197265625</double>
+        <double>0.010986328125</double>
+        <double>0.0054931640625</double>
+        <double>0.00274658203125</double>
+        <double>0.001373291015625</double>
+        <double>6.866455078125E-4</double>
+        <double>3.433227539062E-4</double>
+        <double>1.716613769531E-4</double>
+        <double>8.58306884766E-5</double>
+        <double>4.29153442383E-5</double>
+        <double>2.14576721191E-5</double>
+        <double>1.07288360596E-5</double>
+        <double>5.3644180298E-6</double>
+        <double>2.6822090149E-6</double>
+        <double>1.3411045074E-6</double>
+        <double>6.705522537E-7</double>
+        <double>3.352761269E-7</double>
+        <double>1.676380634E-7</double>
+        <double>8.38190317E-8</double>
+        <double>4.19095159E-8</double>
+      </resolutions>
+      <metersPerUnit>111319.49079327358</metersPerUnit>
+      <pixelSize>2.8E-4</pixelSize>
+      <scaleNames>
+        <string>EPSG:4326:0</string>
+        <string>EPSG:4326:1</string>
+        <string>EPSG:4326:2</string>
+        <string>EPSG:4326:3</string>
+        <string>EPSG:4326:4</string>
+        <string>EPSG:4326:5</string>
+        <string>EPSG:4326:6</string>
+        <string>EPSG:4326:7</string>
+        <string>EPSG:4326:8</string>
+        <string>EPSG:4326:9</string>
+        <string>EPSG:4326:10</string>
+        <string>EPSG:4326:11</string>
+        <string>EPSG:4326:12</string>
+        <string>EPSG:4326:13</string>
+        <string>EPSG:4326:14</string>
+        <string>EPSG:4326:15</string>
+        <string>EPSG:4326:16</string>
+        <string>EPSG:4326:17</string>
+        <string>EPSG:4326:18</string>
+        <string>EPSG:4326:19</string>
+        <string>EPSG:4326:20</string>
+        <string>EPSG:4326:21</string>
+        <string>EPSG:4326:22</string>
+        <string>EPSG:4326:23</string>
+        <string>EPSG:4326:24</string>
+      </scaleNames>
+      <tileHeight>256</tileHeight>
+      <tileWidth>256</tileWidth>
+      <yCoordinateFirst>false</yCoordinateFirst>
+    </gridSet>
+
+
+Teselado del ICC
+................
 
 La Tile Caché del ICC sigue un esquema de teselado particular, distinto al utilizado habitualmente por la mayoría de aplicaciones de web mapping. Por tanto, debe definirse en GeoServer este esquema particular de teselado:
 
