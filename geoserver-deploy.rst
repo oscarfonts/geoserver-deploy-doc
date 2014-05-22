@@ -107,14 +107,13 @@ Reiniciar servicio ssh::
 
 Evitar el error 'too many files open'...
 
-Añadir esta línea a /etc/sysctl.conf::
+Añadir estas líneas a /etc/security/limits.conf ::
 
-	fs.file-max = 5120
+    *                hard    nofile          65535
+    *                soft    nofile          65535
+    root             hard    nofile          65535
+    root             soft    nofile          65535
 
-
-Añadir esta línea a /etc/security/limits.conf ::
-
-	* - nofile 5120
 
 Tras reiniciar la máquina, comprobar límite con::
 
