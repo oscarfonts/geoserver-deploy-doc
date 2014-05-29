@@ -436,8 +436,8 @@ Añadir soporte para formatos ECW y SID
 
 4. Añadir variables de entorno, a /etc/default/tomcat7::
 
-	GDAL_DATA=$GEOSERVER_DATA_DIR/gdal/gdal-data
-	LD_LIBRARY_PATH=$GEOSERVER_DATA_DIR/gdal/lib
+	export GDAL_DATA=$GEOSERVER_DATA_DIR/gdal/gdal-data
+	export LD_LIBRARY_PATH=$GEOSERVER_DATA_DIR/gdal/lib
 
 5. Cambiar permisos y reiniciar tomcat::
 
