@@ -6,19 +6,7 @@ Instalación GeoServer en producción
 Acerca de
 =========
 
-Documento publicado bajo licencia Creative Commons reconocimiento compartir-igual (CC-by-sa). Consultar autoría y fecha en la siguiente tabla. Contribuciones bienvenidas.
-
-======= ========== ============== ==========================================
-Versión Fecha      Autor(es)      Cambios
-======= ========== ============== ==========================================
-1.0.2   17/10/2014 Oscar Fonts    Añadir unattended upgrades
-1.0.1   14/04/2014 Oscar Fonts    Actualizar versión GS 2.5
-1.0     27/02/2014 Oscar Fonts    Compilación a partir de documentación de
-                                  CTBB, FAO, Roses e i3dat.
-                                  Actualizadas versiones: OpenJDK 1.7,
-                                  Tomcat 7, GeoServer 2.5 beta.
-                                  Testeado en Ubuntu 12.04 server x64.
-======= ========== ============== ==========================================
+Documento publicado bajo licencia Creative Commons reconocimiento compartir-igual (CC-by-sa). Consultar autoría en el histórico de commits. Contribuciones bienvenidas.
 
 
 Prerrequisitos
@@ -27,7 +15,7 @@ Prerrequisitos
 Hardware y SO
 -------------
 
-* Sistema Operativo: Recomendado Ubuntu 12.04 Server 64 bits
+* Sistema Operativo: Recomendado Ubuntu 14.04 Server 64 bits
 * CPU: 2 cores mínimo, 4 cores recomendado
 * RAM: 2 GB mínimo, 4 GB recomendado
 * Disco: Según cantidad de datos a publicar (contar con la caché de teselas)
@@ -151,9 +139,6 @@ Añadir JAI y JAI-ImageIO nativos::
 
 Instalar GDAL (1.10)::
 
-	apt-get install python-software-properties
-	add-apt-repository ppa:ubuntugis/ubuntugis-unstable
-	apt-get update
 	apt-get install gdal-bin
 
 
@@ -162,11 +147,10 @@ PostGIS
 
 Instalar PostgreSQL (9.1) y PostGIS (2.0)::
 
-	apt-get install postgresql
-	apt-get install postgresql-9.1-postgis-2.0
+	apt-get install postgresql postgis
+	apt-get install -posgresql-9.3-postgis-2.1
 
-
-Habilitar acceso local. En /etc/postgresql/9.1/main/pg_hba.conf::
+Habilitar acceso local. En /etc/postgresql/9.3/main/pg_hba.conf::
 
 	# TYPE  DATABASE        USER            ADDRESS                 METHOD
 	local   all             postgres                                ident
