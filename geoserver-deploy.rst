@@ -154,10 +154,11 @@ Instalar GDAL (1.10)::
 PostGIS
 =======
 
-Instalar PostgreSQL (9.1) y PostGIS (2.0)::
+Instalar PostgreSQL (9.3) y PostGIS (2.1)::
 
 	apt-get install postgresql postgis
-	apt-get install -posgresql-9.3-postgis-2.1
+	apt-get install postgresql-9.3-postgis-2.1
+
 
 Habilitar acceso local. En /etc/postgresql/9.3/main/pg_hba.conf::
 
@@ -166,7 +167,7 @@ Habilitar acceso local. En /etc/postgresql/9.3/main/pg_hba.conf::
 	local   all             all                                     md5
 	host    all             all             127.0.0.1/32            md5
 
-Y en /etc/postgresql/9.1/main/postgresql.conf, descomentar::
+Y en /etc/postgresql/9.3/main/postgresql.conf, descomentar::
 
     listen_addresses = 'localhost'
 
@@ -199,7 +200,7 @@ PgAdmin III
 
 Para instalar la versión más reciente de pgAdmin en ubuntu, crear el fichero /etc/apt/sources.list.d/pgdg.list con este contenido::
 
-	deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main
+	deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main
 
 Y luego, activar el nuevo repo e instalar pgadmin3 (versión 1.18)::
 
@@ -234,12 +235,11 @@ Acceso remoto abriendo puerto
 
 En caso de tener que abrir directamente un puerto (opción menos segura):
 
-  1. En /etc/postgresql/9.1/main/postgresql.conf::
+  1. En /etc/postgresql/9.3/main/postgresql.conf::
 
        listen_addresses = '*' # O mejor, una lista de IPs, si son fijas.
 
-  2. En /etc/postgresql/9.1/main/pg_hba.conf, añadir una línea específica de acceso para una combinación de IP, BDD y usuario determinados (a ser posible, no usar comodines o "all" para el acceso remoto).
-
+  2. En /etc/postgresql/9.3/main/pg_hba.conf, añadir una línea específica de acceso para una combinación de IP, BDD y usuario determinados (a ser posible, no usar comodines o "all" para el acceso remoto).
 
 Configuración de SSL (https) en tomcat 7
 ========================================
