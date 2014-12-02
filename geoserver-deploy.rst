@@ -133,6 +133,15 @@ Añadir JAI y JAI-ImageIO nativos::
 	wget http://download.java.net/media/jai-imageio/builds/release/1.1/jai_imageio-1_1-lib-linux-amd64-jdk.bin
 	export _POSIX2_VERSION=199209
 	sh jai_imageio-1_1-lib-linux-amd64-jdk.bin
+	
+Si el comando sh no funciona (error "corrupted file") descomprimir como zip::
+
+	sudo cp jai_imageio-1_1-lib-linux-amd64-jdk.bin jai_imageio-1_1-lib-linux-amd64-jdk.zip
+	sudo unzip jai_imageio-1_1-lib-linux-amd64-jdk.zip
+	sudo cp /usr/lib/jvm/java-7-openjdk-amd64/imageio/jre/lib/amd64/libclib_jiio.so /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/
+	sudo cp /usr/lib/jvm/java-7-openjdk-amd64/imageio/jre/lib/ext/* /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/
+
+Reiniciar server	
 
 	service tomcat7 restart
 
