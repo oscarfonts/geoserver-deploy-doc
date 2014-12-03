@@ -478,6 +478,18 @@ LibJPEG Turbo. Acelera salida en JPEG::
 
 	http://sourceforge.net/projects/geoserver/files/GeoServer%20Extensions/2.5-beta/geoserver-2.5-beta-libjpeg-turbo-plugin.zip
 
+Printing (a partir de GS 2.6.0; si se instala una versión anterior, ver siguiente párrafo "Extensiones community")::
+
+	wget http://sourceforge.net/projects/geoserver/files/GeoServer/2.6.0/extensions/geoserver-2.6.0-printing-plugin.zip
+	
+	unzip en WEB-INF/lib y cambiar permisos
+	
+Para que se pueda imprimir en diferentes formatos (gif, png, tiff) después de instalar la extensión printing hay que añadir la librería fontbox::
+	
+	sudo wget https://archive.apache.org/dist/pdfbox/1.6.0/fontbox-1.6.0.jar
+	sudo chown tomcat7. fontbox-1.6.0.jar
+	sudo service tomcat7 restart
+	
 
 Extensiones "community"
 -----------------------
