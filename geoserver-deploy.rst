@@ -309,7 +309,7 @@ Editar el fichero /etc/default/tomcat7 y añadir al final las rutas a Java, los 
 	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
 	GEOSERVER_DATA_DIR=/var/lib/geoserver_data
-	GEOWEBCACHE_CACHE_DIR=/TileCache
+	GEOWEBCACHE_CACHE_DIR=/var/lib/geowebcache_data
 
 	JAVA_OPTS="-server -Djava.awt.headless=true -Xms1560m -Xmx1560m -XX:PermSize=384m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:NewSize=48m -DGEOSERVER_DATA_DIR=$GEOSERVER_DATA_DIR -DGEOWEBCACHE_CACHE_DIR=$GEOWEBCACHE_CACHE_DIR"
 
