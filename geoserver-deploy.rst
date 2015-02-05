@@ -69,14 +69,10 @@ Instalar y configurar firewall (iptables)::
 
 	iptables-save > /etc/iptables.rules
 
-/etc/network/interfaces debería cargar las reglas de iptables al arrancar::
+Crear /etc/network/if-pre-up.d/firewall con este contenidor::
 
-	auto lo
-	iface lo inet loopback
-
-	auto eth0
-	iface eth0 inet dhcp
-	  pre-up iptables-restore < /etc/iptables.rules
+	#!/bin/sh
+	/sbin/iptables-restore < /etc/iptables.rules
 
 
 Instalar fail2ban::
