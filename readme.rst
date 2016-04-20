@@ -243,7 +243,7 @@ Configuración de SSL (https) en tomcat 7
 1. Autogenerar certificado (para pruebas; usar certificado real en producción)::
 
 	cd /var/lib/tomcat7
-	keytool -genkey -alias admin -keypass adminpass -keystore certificate.bin -storepass adminpass
+	keytool -genkey -alias admin -keypass adminpass -keystore certificate.bin -storepass adminpass -keyalg RSA
 	chown tomcat7:tomcat7 certificate.bin
 
 2. Añadir (descomentar) el conector SSL en /var/lib/tomcat7/conf/server.xml, asignarle el puerto 443, y redirigir el servicio HTTP de 8080 al puerto 443::
@@ -256,13 +256,21 @@ Configuración de SSL (https) en tomcat 7
     <Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
         maxThreads="150" scheme="https" secure="true"
         clientAuth="false" sslProtocol="TLS"
+        sslEnabledProtocols="v1.2,TLSv1.1,TLSv1"
         keystoreFile="certificate.bin" keystorePass="adminpass" />
 
-3. Permitir a Tomcat usar puertos estándard, por debajo de 1024. Editar /etc/default/tomcat7 y editar la directiva AUTHBIND::
+3. Permitir a Tomcat usar puertos estándard, por debajo de 1024, usando authbind::
+
+        apt-get install authbind
+        sudo touch /etc/authbind/byport/443
+        sudo chmod 500 /etc/authbind/byport/443
+        sudo chown tomcat7 /etc/authbind/byport/443
+
+4. Editar /etc/default/tomcat7 y editar la directiva AUTHBIND::
 
 	AUTHBIND=yes
 
-4. Forzar el uso de SSL para todas las aplicaciones, inhabilitando el puerto 8080 convencional. Añadir este contenido a /var/lib/tomcat7/conf/web.xml::
+5. Forzar el uso de SSL para todas las aplicaciones, inhabilitando el puerto 8080 convencional. Añadir este contenido a /var/lib/tomcat7/conf/web.xml::
 
     <security-constraint>
         <web-resource-collection>
@@ -274,7 +282,7 @@ Configuración de SSL (https) en tomcat 7
         </user-data-constraint>
     </security-constraint>
 
-5. Reiniciar tomcat::
+6. Reiniciar tomcat::
 	
 	service tomcat7 restart
 
