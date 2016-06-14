@@ -424,15 +424,15 @@ Extensiones Oficiales
 
 CSS. Simbolizar más fácil que con SLD::
 
-	http://sourceforge.net/projects/geoserver/files/GeoServer%20Extensions/2.9.0/geoserver-2.9.0-css-plugin.zip
+	https://sourceforge.net/projects/geoserver/files/GeoServer/2.9.0/extensions/geoserver-2.9.0-css-plugin.zip
 
 Importer. Crear capas de un conjunto de tablas PostGIS o de ficheros ráster sin tener que ir una a una::
 
-	http://sourceforge.net/projects/geoserver/files/GeoServer%20Extensions/2.9.0/geoserver-2.9.0-importer-plugin.zip
+	https://sourceforge.net/projects/geoserver/files/GeoServer/2.9.0/extensions/geoserver-2.9.0-importer-plugin.zip
 
 Control Flow. Evita sobresaturar el servidor::
 
-	http://sourceforge.net/projects/geoserver/files/GeoServer%20Extensions/2.9.0/geoserver-2.9.0-control-flow-plugin.zip
+	https://sourceforge.net/projects/geoserver/files/GeoServer/2.9.0/extensions/geoserver-2.9.0-control-flow-plugin.zip
 
 	http://docs.geoserver.org/latest/en/user/extensions/controlflow/index.html
 
@@ -444,11 +444,11 @@ LibJPEG Turbo. Acelera salida en JPEG::
 
 	Añadir /opt/libjpeg-turbo/lib64 a LD_LIBRARY_PATH en /etc/default/tomcat8.
 
-	http://sourceforge.net/projects/geoserver/files/GeoServer%20Extensions/2.9.0/geoserver-2.9.0-libjpeg-turbo-plugin.zip
+	https://sourceforge.net/projects/geoserver/files/GeoServer/2.9.0/extensions/geoserver-2.9.0-libjpeg-turbo-plugin.zip
 
 Printing (a partir de GS 2.6.0; si se instala una versión anterior, ver siguiente párrafo "Extensiones community")::
 
-	wget http://sourceforge.net/projects/geoserver/files/GeoServer/2.9.0/extensions/geoserver-2.9.0-printing-plugin.zip
+	wget https://sourceforge.net/projects/geoserver/files/GeoServer/2.9.0/extensions/geoserver-2.9.0-printing-plugin.zip
 	
 	unzip en WEB-INF/lib y cambiar permisos
 	
