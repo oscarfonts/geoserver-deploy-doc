@@ -196,6 +196,54 @@ En caso de tener que abrir directamente un puerto (opción menos segura):
 
   2. En /etc/postgresql/9.5/main/pg_hba.conf, añadir una línea específica de acceso para una combinación de IP, BDD y usuario determinados (a ser posible, no usar comodines o "all" para el acceso remoto).
 
+
+Oracle Instant Client
+=====================
+
+Descargar el Oracle Instant Client del sitio web de Oracle:
+
+    http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html
+
+Además del cliente "basic", se recomienda descargar las extensiones "jdbc" y "sqlplus". Por ejemplo:
+
+* `oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm`
+* `oracle-instantclient11.2-jdbc-11.2.0.3.0-1.x86_64.rpm`
+* `oracle-instantclient11.2-sqlplus-11.2.0.3.0-1.x86_64.rpm`
+
+En Ubunu, hará falta convertir los paquetes rpm a deb::
+
+  sudo apt-get install alien
+  sudo alien <paquete>.rpm
+  sudo dpkg -i <paquete>.deb
+
+Una vez instalados los tres paquetes, el cliente estará instalado en la ruta `/usr/lib/oracle/11.2/client64/`.
+
+Crearemos un subdirectorio `tns` para añadir los ficheros con las configuraciones de conexión::
+
+  mkdir /usr/lib/oracle/11.2/client64/tns/
+
+En este directorio crearemos un fichero `tnsnames.ora` con la cadena de conexión::
+
+  <NOMBRE_TNS> =
+    (DESCRIPTION =
+      (ADDRESS_LIST =
+        (ADDRESS = (PROTOCOL = TCP)(HOST = <HOST_ORACLE>)(PORT = 1521))
+      )
+      (CONNECT_DATA =
+        (SID = <SID_ORACLE>)
+        (SERVER = DEDICATED)
+      )
+    )
+
+Se puede comprobar la conexión con `sqlplus64` mediante los siguientes comandos::
+
+  export LD_LIBRARY_PATH=/usr/lib/oracle/11.2/client64/lib/
+  export TNS_ADMIN=/usr/lib/oracle/11.2/client64/tns/
+  sqlplus64 <SCHEMA>/<PASSWORD>@<NOMBRE_TNS>
+
+Tras instalar GeoServer, instalar también la extensión oficial de Oracle. Recordar copiar `ojdbc?.jar` en `WEB-INF/lib`.
+
+
 Configuración de SSL (https) en tomcat 8
 ========================================
 
@@ -614,51 +662,104 @@ Nivel Tamaño del píxel Nombre
 ===== ================ ======================
 
 
-Migración de los datos
-======================
+Ajustes GeoServer en producción
+-------------------------------
 
-PostGIS
--------
+Nota de autoría de este apartado (copiado del proyecto GeoTalleres):
 
-Exportar el archivo SQL. La opción --inserts es importante para la exportación. Si no, ejecuta comandos 'copy'::
+.. note::
 
-	/usr/bin/pg_dump --inserts -h localhost -U user_castellbisbal -W gdb_castellbisbal > ctbb.dump
+	================  ===================================================
+	Fecha              Autores
+	================  ===================================================             
+	6 Feb 2014          * Víctor González (victor.gonzalez@geomati.co) 
+	                    * Fernando González (fernando.gonzalez@fao.org)
+	================  ===================================================	
 
-Restaurar el archivo ctbb.dump::
+	©2014 FAO Forestry 
 
-	> sudo -u user_castellbisbal psql
-	\c gdb_castellbisbal
-	\i ctbb.dump
-	
-Geoserver
----------
+	Excepto donde quede reflejado de otra manera, la presente documentación se halla bajo licencia : Creative Commons (Creative Commons - Attribution - Share Alike: http://creativecommons.org/licenses/by-sa/3.0/deed.es)
 
-1- crear el workspace ctbb_portal
+Existen varias optimizaciones a tener en cuenta para poner GeoServer en producción. Aquí tendremos en cuenta únicamente la limitación del servicio WMS y la configuración del nivel de *logging*. Para una optimización más completa se puede consultar `este whitepaper <http://boundlessgeo.com/whitepaper/geoserver-production-2/#limit>`_ (en inglés). En la presente documentación asumimos que GeoServer se está ejecutando sobre el contenedor Tomcat, por lo que también veremos cómo limitar el número máximo de conexiones simultáneas en Tomcat.
 
-2- con la herramienta ImportData (extensión Importer), publicar las capas en ctbb_portal
 
-3- la importación automática de estilos ha dado errores
+Nivel de *logging*
+..................
 
-	https://jira.codehaus.org/browse/GEOS-6107
-	
-por lo que se ha hecho manualmente copiando SLD
+Para realizar las optimizaciones, primero tenemos que abrir interfaz web de administración y acceder a la configuración global de GeoServer:
 
-4- copiar directorio /graphics en /styles y cambiar permisos::
+.. image:: _static/gs_global.png
+    :align: center
 
-	sudo chown -R tomcat8. graphics/
-	
-5- copiar y pegar carpeta /templates y cambiar permisos::
+Una vez allí, únicamente hay que cambiar el *Perfil de registro* a *PRODUCTION_LOGGING* y pulsar *Enviar* al final de la página:
 
-	sudo chown -R tomcat8. templates/
-	
-	
-Geoexplorer
------------
+.. image:: _static/gs_logging.png
+    :align: center
 
-1- crear /var/lib/geoexplorer_data
+También es posible cambiar la *Ubicación del registro* desde aquí, aunque se recomienda mantener la ubicación por defecto.
 
-2- en Geoexplorer, cambiar GEOEXPLORER_DATA a /var/lib/geoexplorer_data en web.xml y app.proxy.geoserver=http://geoserver.fonts.cat/web/ en build.properties
 
-3- crear archivo .war y subirlo a /var/lib/tomcat8/webapps::
+Limitación del servicio WMS
+...........................
 
-	ant -Dgeoexplorer.data=profiles/ctbb-portal dist
+En cuanto al servicio WMS, vamos a limitar las peticiones recibidas en dos niveles. Por un lado limitaremos el tiempo y la memoria necesarios para procesar una petición de la llamada GetMap, y por otro lado el número de peticiones simultáneas que acepta el dicho servicio.
+
+
+**Tiempo y memoria**
+
+
+Para limitar el tiempo y la memoria requeridos por una única petición WMS en GeoServer, deberemos acceder a *WMS* en la interfaz web:
+
+.. image:: _static/gs_wms.png
+    :align: center
+
+Una vez aquí, buscaremos el apartado *Límites de consumo de recursos*, donde podremos modificar tanto la memoria como el tiempo máximos de renderizado:
+
+.. image:: _static/gs_wms_render_limits.png
+    :align: center
+
+
+**Número de llamadas concurrentes**
+
+
+Por otro lado, es interesante limitar el número de peticiones simultáneas que ha de manejar GeoServer. El número recomendado de peticiones simultáneas para GeoServer es 20. 
+
+La manera más sencilla de conseguir esto es limitar el número de peticiones en Tomcat.
+
+Para limitar el número de peticiones simultáneas en Tomcat hay que modificar el fichero *$TOMCAT/conf/server.xml*. Aquí buscaremos el conector con el puerto 8080 y añadiremos el parámetro *maxThreads* para determinar el número máximo de peticiones::
+
+    <Server port="8005" shutdown="SHUTDOWN">
+      ...
+      <Connector port="8080" protocol="HTTP/1.1"
+        ConnectionTimeout="20000" redirectPort="8443"
+        maxThreads="20" minSpareThreads="20" />
+      ...
+    </Server>
+
+En el caso de que se esté utilizando Tomcat dentro del servidor Apache y se esté utilizando el conector AJP, el parámetro *maxThreads* se deberá añadir en el conector adecuado::
+
+    <Server port="8005" shutdown="SHUTDOWN">
+      ...
+      <Connector port="8009" protocol="AJP/1.3"
+        connectionTimeout="60000" redirectPort="8443"
+        maxThreads="20" minSpareThreads="20" />
+      ...
+    </Server>
+
+.. note::
+	En caso de no saber si se está utilizando el conector AJP, se recomienda establecer los límites igualmente.
+
+.. warning::
+	Es **MUY** importante especificar el valor de *connectionTimeout*, ya que para el conector AJP por defecto es infinito, lo cual puede resultar en un bloqueo del servidor si se reciben demasiadas peticiones simultáneamente.
+
+Además, también es posible controlar el número de peticiones simultáneas desde GeoServer. Para ello hay que utilizar el módulo **control-flow**, que no se encuentra instalado por defecto en GeoServer. 
+
+Para instalarlo primero hay que descargarlo de la web de GeoServer, en la sección de descargas tras seleccionar la versión de GeoServer en el apartado *Extensiones*. El fichero comprimido que se descarga contiene otro fichero llamado *control-flow-<version>.jar* que hay que copiar en *$TOMCAT/webapps/geoserver/WEB-INF/lib*. 
+
+Una vez instalado el módulo, para configurarlo hay que crear un fichero de configuración en *$TOMCAT/webapps/geoserver/data* con el nombre *controlflow.properties*. En dicho fichero escribiremos el siguiente contenido para limitar el número de peticiones simultáneas de imágenes para el servicio WMS::
+
+	ows.wms.getmap=16
+
+El número de peticiones que asignamos al servicio WMS depende del uso que se vaya a hacer de nuestro servidor. La configuración anterior de Tomcat únicamente admite 20 peticiones simultáneas en total. En el caso de que usemos el servidor principalmente para WMS podemos, como en el ejemplo, dedicar 16 al servicio WMS y dejar 4 peticiones simultáneas para cualquier otro servicio o petición a GeoServer.
+
+En la `documentación oficial de GeoServer <http://docs.geoserver.org/stable/en/user/extensions/controlflow/index.html>`_ (en inglés) se puede encontrar mayor detalle sobre la configuración del módulo *control-flow*.
