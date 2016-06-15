@@ -688,12 +688,12 @@ Nivel de *logging*
 
 Para realizar las optimizaciones, primero tenemos que abrir interfaz web de administración y acceder a la configuración global de GeoServer:
 
-.. image:: _static/gs_global.png
+.. image:: img/gs_global.png
     :align: center
 
 Una vez allí, únicamente hay que cambiar el *Perfil de registro* a *PRODUCTION_LOGGING* y pulsar *Enviar* al final de la página:
 
-.. image:: _static/gs_logging.png
+.. image:: img/gs_logging.png
     :align: center
 
 También es posible cambiar la *Ubicación del registro* desde aquí, aunque se recomienda mantener la ubicación por defecto.
@@ -710,12 +710,12 @@ En cuanto al servicio WMS, vamos a limitar las peticiones recibidas en dos nivel
 
 Para limitar el tiempo y la memoria requeridos por una única petición WMS en GeoServer, deberemos acceder a *WMS* en la interfaz web:
 
-.. image:: _static/gs_wms.png
+.. image:: img/gs_wms.png
     :align: center
 
 Una vez aquí, buscaremos el apartado *Límites de consumo de recursos*, donde podremos modificar tanto la memoria como el tiempo máximos de renderizado:
 
-.. image:: _static/gs_wms_render_limits.png
+.. image:: img/gs_wms_render_limits.png
     :align: center
 
 
