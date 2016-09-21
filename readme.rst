@@ -107,8 +107,14 @@ Añadir estas líneas a /etc/security/limits.conf ::
 
 Tras reiniciar la máquina, comprobar límite con::
 
-	ulimit -n
+	cat /proc/<tomcat pid>/limits
 
+Si el límite sigue siendo 1024 o 4096, tocar las siguientes líneas en /etc/init.d/tomcat::
+
+	ulimit -Hn 65535
+	ulimit -Sn 65535
+
+(fuente: https://www.jayway.com/2012/02/11/how-to-really-fix-the-too-many-open-files-problem-for-tomcat-in-ubuntu/)
 
 Instalar fuentes de Microsoft::
 
