@@ -357,6 +357,25 @@ En "server status", combrobar que:
   * Native JAI y Native JAI ImageIO están a "true"
 
 
+Habilitar CORS
+--------------
+
+En `/var/lib/tomcat8/webapps/geoserver/WEB-INF/web.xml`, añadir::
+
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <init-param>
+        <param-name>cors.support.credentials</param-name>
+        <param-value>true</param-value>
+    </init-param>
+
+
 Seguridad
 ---------
 
