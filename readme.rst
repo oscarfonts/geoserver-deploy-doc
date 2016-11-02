@@ -311,13 +311,13 @@ GeoServer
 Instalación base
 ----------------
 
-GeoServer 2.9.0 (o "latest stable")::
+GeoServer 2.10.0 (o "latest stable")::
 
 	cd /var/lib/tomcat8/webapps/
-	wget http://sourceforge.net/projects/geoserver/files/GeoServer/2.9.0/geoserver-2.9.0-war.zip
+	wget http://sourceforge.net/projects/geoserver/files/GeoServer/2.10.0/geoserver-2.10.0-war.zip
 	apt-get install unzip
-	unzip geoserver-2.9.0-war.zip
-	rm -rf target/ *.txt geoserver-2.9.0-war.zip
+	unzip geoserver-2.10.0-war.zip
+	rm -rf target/ *.txt geoserver-2.10.0-war.zip
 
 
 Entorno JVM
