@@ -57,7 +57,7 @@ Algunas utilidades básicas::
 	updatedb
 
 
-Instalar y configurar firewall (iptables)::
+Instalar y configurar firewall (ufw)::
 
 	apt install ufw
 
