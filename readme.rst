@@ -59,21 +59,16 @@ Algunas utilidades básicas::
 
 Instalar y configurar firewall (iptables)::
 
-	apt-get install iptables
+	apt install ufw
 
-	iptables -A INPUT -i lo -j ACCEPT
-	iptables -A INPUT -p tcp -m multiport --destination-ports 22,80,443,8080,8443,5432 -j ACCEPT # Dejar los que se necesiten
-	iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-	iptables -P INPUT DROP
-	iptables -P FORWARD DROP
-
-	iptables-save > /etc/iptables.rules
-
-Crear /etc/network/if-pre-up.d/firewall con este contenidor::
-
-	#!/bin/sh
-	/sbin/iptables-restore < /etc/iptables.rules
-
+	ufw allow 22/tcp
+	ufw allow 80/tcp
+	ufw allow 443/tcp
+	ufw allow 8080/tcp
+	ufw default deny incoming
+	ufw default allow outgoing
+	ufw enable
+	ufw status
 
 Instalar fail2ban::
 
