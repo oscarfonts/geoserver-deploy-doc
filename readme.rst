@@ -171,19 +171,11 @@ Para acceder a la consola SQL::
 	sudo -u postgres psql
 
 
-Crear un nuevo "usuario"::
+Crear un nuevo "usuario", y base de datos PostGIS::
 
 	CREATE USER usuario LOGIN PASSWORD '------' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
-
-
-Crear una nueva BDD "geodatos" cuyo propietario sea "usuario"::
-
-	sudo -u postgres createdb -O usuario geodatos
-
-
-Habilitar capacidades "geo" en la base de datos::
-
-	sudo -u postgres psql -d geodatos -c "CREATE EXTENSION postgis;"
+        CREATE DATABASE geodatos OWNER usuario;
+	CREATE EXTENSION postgis;
 
 
 Acceso remoto abriendo puerto
